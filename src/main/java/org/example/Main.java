@@ -1,6 +1,6 @@
 package org.example;
 public class Main {
-    public static void main(String[] args) throws InsufficientFundsException, AccountNotFoundException {
+    public static void main(String[] args) throws InsufficientFundsException, AccountNotFoundException, NegativeAmountException {
         Bank bank = new Bank();
 
         bank.createAccount("John Doe", 100.0);
@@ -9,8 +9,11 @@ public class Main {
         BankAccount johnDoeAccount = bank.findAccount(1);
         BankAccount janeDoeAccount = bank.findAccount(2);
 
-        johnDoeAccount.withdraw(50.0);
-        janeDoeAccount.deposit(50.0);
+        try {
+            johnDoeAccount.withdraw(-50.0);
+        } catch (InsufficientFundsException | NegativeAmountException e) {
+            System.out.println(e.getMessage());
+        }
 
         System.out.println(johnDoeAccount.getAccountSummary());
         System.out.println(janeDoeAccount.getAccountSummary());
